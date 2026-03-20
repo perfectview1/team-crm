@@ -1,0 +1,18 @@
+services:
+  - type: web
+    name: team-crm
+    env: python
+    plan: starter
+    buildCommand: pip install -r requirements.txt
+    startCommand: gunicorn app:app
+    envVars:
+      - key: TEAM_CRM_SECRET
+        generateValue: true
+      - key: DATABASE_URL
+        fromDatabase:
+          name: team-crm-db
+          property: connectionString
+
+databases:
+  - name: team-crm-db
+    plan: starter
